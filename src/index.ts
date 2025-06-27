@@ -1,19 +1,19 @@
-import { AptosClientRequest, AptosClientResponse } from "./types";
+import { ClientRequest, ClientResponse } from "@aptos-labs/ts-sdk";
 
 /**
  * Used for JSON responses
  *
  * @param options
  */
-export default async function aptosClient<Res>(
-  options: AptosClientRequest,
-): Promise<AptosClientResponse<Res>> {
-  return jsonRequest<Res>(options);
+export default async function aptosClient<Req,Res>(
+  options: ClientRequest<Req>,
+): Promise<ClientResponse<Res>> {
+  return jsonRequest<Req, Res>(options);
 }
 
-export async function jsonRequest<Res>(
-  options: AptosClientRequest,
-): Promise<AptosClientResponse<Res>> {
+export async function jsonRequest<Req, Res>(
+  options: ClientRequest<Req>,
+): Promise<ClientResponse<Res>> {
   const { requestUrl, requestConfig } = buildRequest(options);
 
   const res = await fetch(requestUrl, requestConfig);
@@ -28,30 +28,7 @@ export async function jsonRequest<Res>(
   };
 }
 
-/**
- * Used for binary responses, such as BCS outputs
- *
- * @experimental
- * @param options
- */
-export async function bcsRequest(
-  options: AptosClientRequest,
-): Promise<AptosClientResponse<ArrayBuffer>> {
-  const { requestUrl, requestConfig } = buildRequest(options);
-
-  const res = await fetch(requestUrl, requestConfig);
-  const data = await res.arrayBuffer();
-
-  return {
-    status: res.status,
-    statusText: res.statusText,
-    data,
-    headers: res.headers,
-    config: requestConfig,
-  };
-}
-
-function buildRequest(options: AptosClientRequest) {
+function buildRequest<Req>(options: ClientRequest<Req>) {
   const headers = new Headers();
   Object.entries(options?.headers ?? {}).forEach(([key, value]) => {
     headers.append(key, String(value));

@@ -1,50 +1,38 @@
 {
-  "name": "@aptos-labs/aptos-client",
+  "name": "@wgb5445/aptos-client",
   "description": "Client package for accessing the Aptos network API.",
   "packageManager": "pnpm@10.10.0",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "exports": {
-    "browser": {
-      "require": "./dist/browser/index.browser.js",
-      "types": "./dist/browser/index.browser.d.ts",
-      "import": "./dist/browser/index.browser.mjs"
-    },
-    "node": {
-      "require": "./dist/node/index.node.js",
-      "types": "./dist/node/index.node.d.ts",
-      "import": "./dist/node/index.node.mjs"
-    }
-  },
-  "browser": {
-    "./dist/node/index.node.mjs": "./dist/browser/index.browser.mjs",
-    "./dist/node/index.node.js": "./dist/browser/index.browser.js"
-  },
-  "main": "./dist/node/index.node.js",
-  "module": "./dist/node/index.node.mjs",
-  "types": "./dist/types/index.node.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "./dist/"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build:clean": "rm -rf dist",
-    "build": "pnpm build:clean && pnpm run _build:types && pnpm _build:node && pnpm _build:browser",
-    "_build:browser": "tsup src/index.browser.ts --format cjs,esm --dts --out-dir dist/browser",
-    "_build:node": "tsup src/index.node.ts --format cjs,esm --dts --out-dir dist/node",
-    "_build:types": "tsc src/types.ts src/index.node.ts --outDir dist/types --declaration",
+    "build": "pnpm vite build",
+    "prepublish": "pnpm build",
     "lint": "eslint \"**/*.ts\"",
     "fmt": "pnpm _fmt --write",
     "_fmt": "prettier 'src/**/*.ts' '.eslintrc.js' '*.md'"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aptos-labs/aptos-client.git"
+    "url": "https://github.com/wgb5445/aptos-client.git"
   },
-  "homepage": "https://github.com/aptos-labs/aptos-client",
+  "homepage": "https://github.com/wgb5445/aptos-client",
   "bugs": {
-    "url": "https://github.com/aptos-labs/aptos-client/issues"
+    "url": "https://github.com/wgb5445/aptos-client/issues"
   },
   "author": "aptoslabs.com",
   "keywords": [
@@ -52,23 +40,16 @@
     "Aptos Labs",
     "Aptos SDK"
   ],
-  "peerDependencies": {
-    "got": "^11.8.6"
-  },
   "devDependencies": {
-    "@types/node": "22.13.10",
-    "@typescript-eslint/eslint-plugin": "6.21.0",
-    "@typescript-eslint/parser": "6.21.0",
-    "eslint": "8.57.1",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-airbnb-typescript": "17.1.0",
-    "eslint-plugin-import": "2.31.0",
-    "prettier": "3.5.3",
-    "semver": "7.7.1",
-    "ts-node": "10.9.2",
-    "tsup": "8.4.0",
-    "typescript": "5.8.2"
+    "@types/node": "^20.11.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.7.3",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^4.5.4"
   },
-  "version": "2.0.0"
+  "version": "2.0.0",
+  "peerDependencies": {
+    "@aptos-labs/ts-sdk": "^3.0.0"
+  }
 }
