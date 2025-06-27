@@ -5,13 +5,7 @@ import { ClientRequest, ClientResponse } from "@aptos-labs/ts-sdk";
  *
  * @param options
  */
-export default async function aptosClient<Req, Res>(
-  options: ClientRequest<Req>,
-): Promise<ClientResponse<Res>> {
-  return jsonRequest<Req, Res>(options);
-}
-
-export async function jsonRequest<Req, Res>(
+export async function aptosClient<Req, Res>(
   options: ClientRequest<Req>,
 ): Promise<ClientResponse<Res>> {
   const { requestUrl, requestConfig } = buildRequest(options);
