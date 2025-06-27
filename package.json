@@ -24,7 +24,7 @@
     "prepublish": "pnpm build",
     "lint": "eslint \"**/*.ts\"",
     "fmt": "pnpm _fmt --write",
-    "_fmt": "prettier 'src/**/*.ts' '.eslintrc.js' '*.md'"
+    "_fmt": "prettier src/**/*.ts .eslintrc.js *.md"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,10 @@
   "devDependencies": {
     "@types/node": "^20.11.0",
     "eslint": "^8.50.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.32.0",
     "prettier": "^3.1.0",
     "typescript": "^5.7.3",
     "vite": "^5.2.0",
