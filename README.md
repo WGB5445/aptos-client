@@ -4,62 +4,38 @@
 ![NPM bundle size](https://img.shields.io/bundlephobia/min/%40aptos-labs/aptos-client)
 [![NPM Package Downloads][npm-image-downloads]][npm-url]
 
-# @aptos-labs/aptos-client
+# @wgb5445/aptos-client
 
 This package implements a client with which you can interact with the Aptos network. It can be used standalone, and it is the client package used by the Aptos TypeScript SDK.
+
+fork from [@aptos-labs/aptos-client](https://github.com/aptos-labs/aptos-client)
 
 #### Implementation
 
 The `@aptos-labs/aptos-client` package supports http2 protocol and implements 2 clients environment based:
 
-1. [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) - implemented in `index.browser.ts` to use in `browser` environment (in a browser env it is up to the browser and the server to negotiate http2 connection)
-2. [got](https://github.com/sindresorhus/got) - implemented in `index.node.ts` to use in `node` environment (to support http2 in node environment, still the server must support http2 also)
+1. [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) - implemented in `index.ts` to use in `All` environment (in a browser env it is up to the browser and the server to negotiate http2 connection)
 
 #### Function signature
 
 ```ts
-async function aptosClient<Res>(
-  requestOptions: AptosClientRequest,
-): Promise<AptosClientResponse<Res>>;
-```
-
-#### Types
-
-```ts
-type AptosClientResponse<Res> = {
-  status: number;
-  statusText: string;
-  data: Res;
-  config?: any;
-  request?: any;
-  response?: any;
-  headers?: any;
-};
-
-type AptosClientRequest = {
-  url: string;
-  method: "GET" | "POST";
-  body?: any;
-  params?: any;
-  headers?: any;
-  overrides?: any;
-};
+async function aptosClient<Req, Res>(
+  options: ClientRequest<Req>,
+): Promise<ClientResponse<Res>>;
 ```
 
 #### Usage
 
 ```ts
-import aptosClient from "@aptos-labs/aptos-client";
+import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
+import { aptosClient } from "@wgb5445/aptos-client";
 
-const response = await aptosClient<Res>({
-  url,
-  method,
-  body,
-  params,
-  headers,
-  overrides,
-});
-return response;
+const aptos = new Aptos(  new AptosConfig({
+  network: Network.MAINNET,
+  client:{
+    provider: aptosClient,
+  }
+}));
 ```
 
 [npm-image-version]: https://img.shields.io/npm/v/%40aptos-labs%2Faptos-client.svg
